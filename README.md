@@ -4,10 +4,11 @@
 
 ## Task
 
-|Name|Time|Finished|
-|:-------------|--------------|---------------|
+| Name | Time | Finished | Info |
+|:-------------|--------------|---------------|-----------------------|
 | add husky | 2022-2-22 | Yes |
 | add changelog | 2022-2-22 | Yes |
+| connect mysql | 2022-2-23 | | [Nest.js 快速入门：实现对 Mysql 单表的 CRUD](https://juejin.cn/post/7044231271794343966)
 | user crud | 2022-2-23 |
 
 

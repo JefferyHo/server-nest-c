@@ -7,9 +7,9 @@ import {
   Param,
   Delete,
   Query,
-  UsePipes,
-  ValidationPipe,
-  UseFilters,
+  BadRequestException,
+  HttpException,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -28,14 +28,23 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@Query() pagination: Pagination) {
-    console.log(pagination);
-    return this.usersService.findAll(pagination);
+  async findAll(@Query() pagination: Pagination) {
+    const [data, total] = await this.usersService.findAll(pagination);
+    return {
+      data,
+      total,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const res = await this.usersService.findOne(+id);
+
+    if (res === null) {
+      throw new BadRequestException('user not exist');
+    }
+
+    return res;
   }
 
   @Patch(':id')
@@ -44,7 +53,25 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const data: any = await this.usersService.remove(+id);
+    if (data.affected === 1) {
+      return null;
+    }
+
+    Logger.error('--- delete user', JSON.stringify(data));
+    throw new HttpException('fail to delete user', 500);
+  }
+
+  @Delete()
+  async removePatch(@Query() query: any) {
+    const ids = query.ids.split(',');
+    try {
+      await this.usersService.removePatch(ids);
+      return null;
+    } catch (e) {
+      Logger.error('--- delete user patch', e);
+      throw new HttpException('fail to delete user', 500);
+    }
   }
 }

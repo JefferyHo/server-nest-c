@@ -10,10 +10,12 @@ import {
   BadRequestException,
   HttpException,
   Logger,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export interface Pagination {
   page: number;
   size: number;
@@ -27,6 +29,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Query() pagination: Pagination) {
     const [data, total] = await this.usersService.findAll(pagination);

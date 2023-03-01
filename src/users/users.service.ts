@@ -92,4 +92,12 @@ export class UsersService {
     }
     return this.userRepository.remove(entities);
   }
+
+  async findOneByName(name: string) {
+    const qb = this.userRepository.createQueryBuilder('user');
+    return await qb
+      .addSelect('user.userPwd')
+      .where('user.userName = :name', { name })
+      .getOne();
+  }
 }

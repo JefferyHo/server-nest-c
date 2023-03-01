@@ -8,14 +8,9 @@
 |:-------------|--------------|---------------|-----------------------|
 | add husky | 2022-2-22 | Yes |
 | add changelog | 2022-2-22 | Yes |
-| connect mysql | 2022-2-23 | | [Nest.js 快速入门：实现对 Mysql 单表的 CRUD](https://juejin.cn/post/7044231271794343966)
-| user crud | 2022-2-23 |
-
-## List
-
-  1.  add global filters -> error catch
-      add global interceptors -> response unify
-  2.  nest + class-validator
+| connect mysql | 2022-2-23 | Yes | [Nest.js 快速入门：实现对 Mysql 单表的 CRUD](https://juejin.cn/post/7044231271794343966)
+| user crud | 2022-2-23 |Yes |
+| user login & jwt| 2022-3-1| | [Authentication](https://docs.nestjs.com/security/authentication) |
 
 
 

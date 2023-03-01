@@ -9,5 +9,6 @@ import { IsUserAlreadyExistConstraint } from '../validation/IsUserExist';
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [IsUserAlreadyExistConstraint, UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

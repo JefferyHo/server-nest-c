@@ -12,7 +12,8 @@
 | user crud | 2022-2-23 |Yes |
 | user login & jwt| 2022-3-1| Yes | [Authentication](https://docs.nestjs.com/security/authentication) |
 | passport encryped & decryped | 2022-3-1 | |
-
+| deploy - local | 2022-3-1 | Yes | pm2 |
+| deploy - linux | 2022-3 | | docker |
 
 
 ## Description

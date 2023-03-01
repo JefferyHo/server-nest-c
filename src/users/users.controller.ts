@@ -20,6 +20,7 @@ export interface Pagination {
   page: number;
   size: number;
 }
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -29,7 +30,6 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Query() pagination: Pagination) {
     const [data, total] = await this.usersService.findAll(pagination);

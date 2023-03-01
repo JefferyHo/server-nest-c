@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +22,8 @@ export class UsersService {
     // }
 
     try {
-      const res = await this.userRepository.save(createUserDto);
+      const entity = plainToClass(User, createUserDto);
+      const res = await this.userRepository.save(entity);
       Logger.log(`success add a new user, id = ${res.id}`);
     } catch (e) {
       throw new BadRequestException(e);

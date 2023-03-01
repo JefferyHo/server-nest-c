@@ -12,7 +12,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    // const request = ctx.getRequest();
+    const request = ctx.getRequest();
 
     const message = exception.message;
 
@@ -23,7 +23,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? validationMsg.message[0]
         : validationMsg.messag;
     }
-    Logger.log('错误提示', validationMsg || message);
+    Logger.error(`[错误] - ${request.url}: ${validationMsg || message}`);
 
     const status =
       exception instanceof HttpException

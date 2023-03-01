@@ -1,10 +1,12 @@
 import { IsEmail, IsIn, IsNotEmpty, IsMobilePhone } from 'class-validator';
+import { encrypt } from 'src/utils/encrypt';
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm';
 
 @Entity()
@@ -43,4 +45,9 @@ export class User {
 
   @UpdateDateColumn({ name: 'update_time' })
   updateTime: Date;
+
+  @BeforeInsert()
+  async encryptPwd() {
+    this.userPwd = await encrypt(this.userPwd);
+  }
 }

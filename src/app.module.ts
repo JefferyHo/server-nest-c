@@ -6,6 +6,9 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { LogModule } from './modules/log/log.module';
+import { AppsModule } from './modules/apps/apps.module';
+import { LabelsModule } from './modules/labels/labels.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -19,9 +22,14 @@ import { LogModule } from './modules/log/log.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    MulterModule.register({
+      dest: './upload',
+    }),
     UsersModule,
     AuthModule,
-    LogModule,
+    // LogModule,
+    AppsModule,
+    LabelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

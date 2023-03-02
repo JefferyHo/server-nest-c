@@ -5,7 +5,7 @@ import {
   IsOptional,
   ValidateIf,
 } from 'class-validator';
-import { IsUserAlreadyExist } from '../../validation/IsUserExist';
+import { IsUserAlreadyExist } from '../../../validation/IsUserExist';
 
 export class CreateUserDto {
   @IsUserAlreadyExist({

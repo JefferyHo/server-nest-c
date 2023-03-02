@@ -1,4 +1,3 @@
-import { IsEmail, IsIn, IsNotEmpty, IsMobilePhone } from 'class-validator';
 import { encrypt } from 'src/utils/encrypt';
 import {
   Column,
@@ -26,18 +25,20 @@ export class User {
   @Column({ length: 50, nullable: true })
   phone: string;
 
-  // 账号状态： 0:待开通，1:正常，2:停用
-  @IsIn([0, 1, 2], {
-    message: 'invalid status value',
+  @Column('int', {
+    default: 1,
+    comment: '账号状态: 0:待开通, 1:正常, 2:停用',
   })
-  @Column('int', { default: 1 })
   status: number;
 
   @Column({ length: 512, nullable: true })
   description: string;
 
-  // 删除状态： 0:未删除， 1: 已删除
-  @Column('int', { default: 0, name: 'is_delete' })
+  @Column('int', {
+    default: 0,
+    name: 'is_delete',
+    comment: '删除状态： 0:未删除， 1: 已删除',
+  })
   isDelete: number;
 
   @CreateDateColumn({ name: 'create_time' })

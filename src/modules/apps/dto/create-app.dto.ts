@@ -15,7 +15,7 @@ export class CreateAppDto {
   @IsNotEmpty()
   url: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   avatar: string;
 
   @IsOptional()

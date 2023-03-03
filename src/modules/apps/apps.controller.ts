@@ -9,8 +9,14 @@ import {
   Request,
   BadRequestException,
   UseGuards,
+  UploadedFile,
+  UseInterceptors,
+  ParseFilePipeBuilder,
+  HttpStatus,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { publicPath } from 'src/constants/file.constant';
 import { AppsService } from './apps.service';
 import { CreateAppDto } from './dto/create-app.dto';
 import { UpdateAppDto } from './dto/update-app.dto';
@@ -21,12 +27,30 @@ export class AppsController {
   constructor(private readonly appsService: AppsService) {}
 
   @Post()
-  async create(@Request() req, @Body() createAppDto: CreateAppDto) {
+  @UseInterceptors(FileInterceptor('avatar'))
+  async create(
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: 'jpeg|png|jpg',
+        })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1024, // 1M
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    file: Express.Multer.File,
+    @Request() req,
+    @Body() createAppDto: CreateAppDto,
+  ) {
     if (await this.appsService.findOneByName(createAppDto.name)) {
       throw new BadRequestException('name is already exist');
     }
     return this.appsService.create({
       ...createAppDto,
+      avatar: `${publicPath}/${file.filename}`,
       creator: req.user.userId,
     });
   }

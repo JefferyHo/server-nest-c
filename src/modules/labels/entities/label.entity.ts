@@ -27,9 +27,9 @@ export class Label {
   @ManyToMany(() => App)
   apps: App;
 
-  @CreateDateColumn({ name: 'create_date' })
+  @CreateDateColumn({ name: 'create_date', select: false })
   createDate: Date;
 
-  @UpdateDateColumn({ name: 'update_date' })
+  @UpdateDateColumn({ name: 'update_date', select: false })
   UpdateDate: Date;
 }

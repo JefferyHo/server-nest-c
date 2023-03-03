@@ -25,13 +25,13 @@ export class App {
   })
   label: Label;
 
-  @Column('varchar', { comment: '介绍', length: 50 })
+  @Column('varchar', { comment: '介绍', length: 50, default: '' })
   info: string;
 
   @Column('varchar', { length: 500 })
   url: string;
 
-  @Column('varchar', { length: 500 })
+  @Column('varchar', { length: 500, default: '' })
   avatar: string;
 
   @ManyToOne(() => User)

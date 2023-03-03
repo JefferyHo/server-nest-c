@@ -14,7 +14,8 @@
 | passport encryped & decryped | 2022-3-1 | |
 | deploy - local | 2022-3-1 | Yes | pm2 |
 | deploy - linux | 2022-3 | | docker |
-| 数据库表关系  | 2022-3-1 ~ 2022-3-3 | ing | 一对多（从表外键），多对多（中间表）|
+| 数据库表关系  | 2022-3-2 | Yes  | 一对多（从表外键），多对多（中间表）| ManyToMany 存不上数据? |
+| 文件上传  | 2022-3-3 | Yes | @UploadedFile && useStaticAssets |
 
 
 ## Description

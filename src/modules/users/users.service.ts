@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -11,6 +12,18 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+
+  async register(registerUserDto: RegisterUserDto) {
+    try {
+      const entity = plainToClass(User, registerUserDto);
+      const res = await this.userRepository.save(entity);
+      Logger.log(`用户自主注册, id = ${res.id}`);
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
+
+    return null;
+  }
 
   async create(createUserDto: CreateUserDto) {
     // if (await this.isNameExist(createUserDto.userName)) {
@@ -24,7 +37,7 @@ export class UsersService {
     try {
       const entity = plainToClass(User, createUserDto);
       const res = await this.userRepository.save(entity);
-      Logger.log(`success add a new user, id = ${res.id}`);
+      Logger.log(`管理员添加用户, id = ${res.id}`);
     } catch (e) {
       throw new BadRequestException(e);
     }

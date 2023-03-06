@@ -19,7 +19,7 @@ export class User {
   @Column({ length: 100, name: 'user_pwd', select: false })
   userPwd: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, default: '' })
   email: string;
 
   @Column({ length: 50, nullable: true })

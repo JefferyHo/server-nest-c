@@ -9,7 +9,9 @@ import { HttpExceptionFilter } from './filters/http-exception/http-exception.fil
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
 
   // 图片静态资源
   app.useStaticAssets(join(__dirname, 'files'), {

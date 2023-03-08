@@ -15,14 +15,16 @@ export class UsersService {
 
   async register(registerUserDto: RegisterUserDto) {
     try {
-      const entity = plainToClass(User, registerUserDto);
+      const entity = plainToClass(User, {
+        userName: registerUserDto.username,
+        userPwd: registerUserDto.password,
+      });
       const res = await this.userRepository.save(entity);
       Logger.log(`用户自主注册, id = ${res.id}`);
+      return res;
     } catch (e) {
       throw new BadRequestException(e);
     }
-
-    return null;
   }
 
   async create(createUserDto: CreateUserDto) {

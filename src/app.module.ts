@@ -6,6 +6,9 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AppsModule } from './modules/apps/apps.module';
 import { LabelsModule } from './modules/labels/labels.module';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './constants/auth.constant';
+import { JwtStrategy } from './auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -18,6 +21,12 @@ import { LabelsModule } from './modules/labels/labels.module';
       database: 'aigc',
       autoLoadEntities: true,
       synchronize: true,
+    }),
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: {
+        expiresIn: '8h',
+      },
     }),
     UsersModule,
     AuthModule,

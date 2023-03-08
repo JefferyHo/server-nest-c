@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { isSame } from 'src/utils/encrypt';
 import { UsersService } from '../modules/users/users.service';
 
@@ -13,12 +14,16 @@ export class AuthService {
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userServie.findOneByName(username);
 
-    if (user && isSame(pass, user.userPwd)) {
-      const { userPwd, ...rest } = user;
-      return rest;
+    if (!user) {
+      throw new BadRequestException('usename is incorrect');
     }
 
-    return null;
+    if (!isSame(pass, user.userPwd)) {
+      throw new BadRequestException('password is incorrect');
+    }
+
+    const { userPwd, ...rest } = user;
+    return rest;
   }
 
   async login(user: any) {

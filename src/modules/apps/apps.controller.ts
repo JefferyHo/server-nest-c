@@ -71,12 +71,34 @@ export class AppsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateAppDto: UpdateAppDto) {
+  @UseInterceptors(FileInterceptor('avatar'))
+  async update(
+    @Param('id') id: string,
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: 'jpeg|png|jpg',
+        })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1024, // 1M
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    file: Express.Multer.File,
+    @Request() req,
+    @Body() updateAppDto: UpdateAppDto,
+  ) {
     const app = await this.appsService.findOneByNameExId(updateAppDto.name, id);
     if (app) {
       throw new BadRequestException('name is already exist');
     }
-    return this.appsService.update(+id, updateAppDto);
+    return this.appsService.update(+id, {
+      ...updateAppDto,
+      avatar: `${publicPath}/${file.filename}`,
+      creator: req.user.userId,
+    });
   }
 
   @Delete(':id')

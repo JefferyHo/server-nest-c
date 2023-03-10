@@ -11,6 +11,9 @@ export class UpdateAppDto extends PartialType(CreateAppDto) {
   label: Label;
 
   @IsOptional()
+  info: string;
+
+  @IsOptional()
   url: string;
 
   @IsOptional()

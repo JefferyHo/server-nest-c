@@ -5,3 +5,13 @@ export class CreateAgentBundleDto {
 
   token: string;
 }
+
+export class AgentOssTokenDto {
+  api: string;
+
+  token: string;
+}
+
+export class UploadBundleDto extends AgentOssTokenDto {
+  zip: File;
+}

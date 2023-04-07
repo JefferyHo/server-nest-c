@@ -3,7 +3,9 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +17,8 @@ import { RegisterUserDto } from './modules/users/dto/register-user.dto';
 import { UsersService } from './modules/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { isSame } from 'src/utils/encrypt';
+import { ScheduleService } from './schedules/schedule.service';
+import { ChatService } from './modules/chat/chat.service';
 
 @Controller()
 export class AppController {
@@ -23,7 +27,14 @@ export class AppController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private jwtService: JwtService,
+    private readonly ScheduleService: ScheduleService,
+    private readonly chatService: ChatService,
   ) {}
+
+  @Get('/chat')
+  getMsg(@Query() msg) {
+    return this.chatService.getMessageId(msg.msg);
+  }
 
   @Get()
   getHello(): string {
